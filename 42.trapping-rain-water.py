@@ -48,17 +48,37 @@ class Solution:
     #             res += min(maxleft[i],maxright[i]) - height[i]
     #     return res
 
+    # def trap(self, height: List[int]) -> int:
+    #     res, left_highest, right_highest, j = 0, [0]*len(height), [0]*len(height), len(height)-2
+    #     for i in range(1, len(height)):
+    #         left_highest[i] = max(left_highest[i-1], height[i-1])
+    #         right_highest[j] = max(right_highest[j+1], height[j+1])
+    #         j -= 1
+    #     for i in range(1, len(height)-1):
+    #         res += max(min(left_highest[i], right_highest[i]) - height[i], 0)
+    #     return res
+
+    #  ==== need to imply the stack  
     def trap(self, height: List[int]) -> int:
-        res, left_highest, right_highest, j = 0, [0]*len(height), [0]*len(height), len(height)-2
-        for i in range(1, len(height)):
-            left_highest[i] = max(left_highest[i-1], height[i-1])
-            right_highest[j] = max(right_highest[j+1], height[j+1])
-            j -= 1
-        for i in range(1, len(height)-1):
-            res += max(min(left_highest[i], right_highest[i]) - height[i], 0)
+        if not height:
+            return 0
+        
+        res = 0
+        stack = []
+        for i in range(len(height)):
+            while len(stack) != 0 and height[i] < height[stack[-1]]: 
+                top = stack[-1]
+                stack.pop()
+                if len(stack) == 0:
+                    break
+                distance = i - stack[-1] - 1
+                bound_height = min (height[i],height[stack[-1]]) - height[top]
+                res += distance * bound_height
+            stack.append(i)
+        
         return res
 
-    # def trap(self, height: List[int]) -> int:
+
 
 
 if __name__ == "__main__":

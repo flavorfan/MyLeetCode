@@ -3,7 +3,7 @@ leetcode的个人实践
 
 
 # 算法
-## backtrace
+## backtrace (Recursion) 递归迭代
 
 
 ## Dynamic Programming  动态规划
