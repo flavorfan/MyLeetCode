@@ -8,8 +8,8 @@ from typing import List
 class Solution:
     def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
         result = [[]]
-        for num in sorted(nums):
-            result += [i+[num] for i in result if i+[num] not in result]
+        for num in sorted(nums):    # important sorted
+            result += [i+[num] for i in result if i+[num] not in result]  # perfect
         return result
 	
 

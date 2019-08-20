@@ -24,7 +24,12 @@ P({1, 2, 3}) = [[∅], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
 """
 
 class Solution:
-    def subsets(self, nums):
+    def subsets(self,nums):
+        ans = [[]]
+        for num in nums:     
+            ans += [ [num] + i for i in ans ]
+        return ans
+    def subsets_old(self, nums):
         """
         :type nums: List[int]
         :rtype: List[List[int]]
