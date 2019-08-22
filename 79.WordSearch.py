@@ -44,15 +44,18 @@ class Solution:
         :type word: str
         :rtype: bool
         """
+        # 1- return true result
         if len(word) == 0:
             return True
+        # 2- early end
         if i<0 or i>= len(board) or j<0 or j>=len(board[0]) or board[i][j] !=  word[0] :
             return False
+        # 3- backtrack tree fan out
         tmp = board[i][j]
-        board[i][j] = "#"
+        board[i][j] = "#"    # mark to be used
         res = self.dfs(board,i+1,j,word[1:]) or self.dfs(board,i-1,j,word[1:]) \
               or self.dfs(board,i,j+1,word[1:]) or self.dfs(board,i,j-1,word[1:])
-        board[i][j] = tmp
+        board[i][j] = tmp    # restore
         return res
 
 if __name__ == '__main__':

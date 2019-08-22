@@ -11,6 +11,7 @@ class Solution:
                 self.ans.append(chosen)
             return -1
         for i in range(start, len(candidates)) :
+            # use path = chosen
             e = self.backtrack(candidates,target,chosen + [candidates[i]],total + candidates[i], i)
             if e == -1 :
                 break

@@ -16,9 +16,9 @@ class Solution:
                 break       
             if idx > start and candidates[idx - 1] == candidates[idx]:
                 continue             
-            path.append(candidates[idx])
+            path.append(candidates[idx])   #  explore  path - reference
             self.__dfs(candidates,idx + 1, path, residuce - candidates[idx])
-            path.pop()
+            path.pop()                     #  restore
 
     def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
         if len(candidates) == 0:
