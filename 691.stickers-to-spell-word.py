@@ -45,6 +45,7 @@ class Solution:
         search()
         return self.best if self.best <= len(target) else -1 
 
+    #  状态压缩的dp
     def minStickers(self, stickers: List[str], target: str) -> int:
         t_count = Counter(target)
         A = [Counter(sticker) & t_count for sticker in stickers]
