@@ -11,7 +11,7 @@ class Solution:
     def isPalin(self, s):
         return s == s[::-1]
     
-    def palindromePairs_old(self, words: List[str]) -> List[List[int]]:
+    def palindromePairs(self, words: List[str]) -> List[List[int]]:
         res = []
         root = {}
         for i, word in enumerate(words):
@@ -53,7 +53,7 @@ class Solution:
 
         return res 
 
-    def palindromePairs(self, words: List[str]) -> List[List[int]]:
+    def palindromePairs_notrie(self, words: List[str]) -> List[List[int]]:
         def is_palindrome(check):
             return check == check[::-1]
 
