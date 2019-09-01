@@ -13,6 +13,7 @@ class TreeNode:
         self.right = None
 
 class Solution:
+    #return false if child is insufficient or None
     def dfs(self, root, limit, t_sum):
         if root.left == None and root.right == None:    # leaf
             if t_sum + root.val < limit:
