@@ -30,6 +30,7 @@ class Solution:
             if not uf.union(edge[0], edge[1]):
                 return edge
 
+        
 
 
 if __name__ == "__main__":
