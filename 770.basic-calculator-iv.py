@@ -126,17 +126,30 @@ class Solution(object):
                         product[xy] += self[x] * other[y]
                 return product
         vals = dict(zip(evalvars, evalints))
+        # ?
         def f(s):
             s = str(vals.get(s, s))
             return C({(s,): 1}) if s.isalpha() else C({(): int(s)})
+        # eval() 函数用来执行一个字符串表达式，并返回表达式的值。
+        # re.sub用于替换字符串中的匹配项
+        # 对于输入的一个字符串，利用正则表达式（的强大的字符串处理功能），
+        # 去实现（相对复杂的）字符串替换处理，然后返回被替换后的字符串
+        # print(re.sub('(\w+)', r'f("\1")', expression))
+        # in a string passed to the repl argument of re.sub()\g<quote>\g<1>\1
         c = eval(re.sub('(\w+)', r'f("\1")', expression))
+
         return ['*'.join((str(c[x]),) + x)
                 for x in sorted(c, key=lambda x: (-len(x), x))
                 if c[x]]
         
 if __name__ == '__main__':
     sln = Solution()
-    expression = "e + 8 - a + 5"
-    evalvars = ["e"]
-    evalints = [1]
+    # expression = "e + 8 - a + 5"
+    # evalvars = ["e"]
+    # evalints = [1]
+    # print(sln.basicCalculatorIV(expression, evalvars, evalints))
+
+    expression = "((a - b) * (b - c) + (c - a)) * ((a - b) + (b - c) * (c - a))"
+    evalvars = []
+    evalints = []
     print(sln.basicCalculatorIV(expression, evalvars, evalints))
