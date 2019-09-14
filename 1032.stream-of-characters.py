@@ -4,9 +4,9 @@
 # [1032] Stream of Characters
 #
 from typing import List
+from collections import defaultdict
 
-class StreamChecker:
-
+class StreamChecker_trie:
     def __init__(self, words: List[str]):
         self.root = {}
         self.q = []
@@ -27,7 +27,36 @@ class StreamChecker:
         self.q = next_q
         return any([each.get('-') 
                     for each in self.q])
-        
+
+
+# Build a trie using the reversed words.
+# Keep track of the queried letters.
+# Check if the reverse of the queried string is in the trie.
+class Trie:
+    def __init__(self):
+        self.children = defaultdict(Trie)
+        self.flag = False
+    
+class StreamChecker:
+    def __init__(self, words: List[str]):
+        self.trie = Trie()
+        self.history = []
+        for word in words:
+            node = self.trie
+            for char in word[::-1]:
+                node = node.children[char]
+            node.flag = True
+
+    def query(self, letter: str) -> bool:
+        self.history.append(letter)
+        node = self.trie
+        for i in reversed(range(len(self.history))):
+            if self.history[i] in node.children:
+                node = node.children[self.history[i]]
+                if node.flag: return True
+            else: 
+                return False
+        return False                 
 
 if __name__ == "__main__":
     words = ["cd","f","kl"]
