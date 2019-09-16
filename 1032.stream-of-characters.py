@@ -5,6 +5,7 @@
 #
 from typing import List
 from collections import defaultdict
+import collections
 
 class StreamChecker_trie:
     def __init__(self, words: List[str]):
@@ -37,7 +38,7 @@ class Trie:
         self.children = defaultdict(Trie)
         self.flag = False
     
-class StreamChecker:
+class StreamChecker_backtrie:
     def __init__(self, words: List[str]):
         self.trie = Trie()
         self.history = []
@@ -57,6 +58,68 @@ class StreamChecker:
             else: 
                 return False
         return False                 
+
+# Aho-Corasick
+# https://en.wikipedia.org/wiki/Aho–Corasick_algorithm
+# Each Trie node is implemented as a dictionary.
+# The value at a character is the corresponding child node.
+# The value at the special key 'prefix' is the target of the prefix pointer,
+# and the value at 'dictionary' is the target of the dictionary pointer.
+# If the node corresponds to a word in words, the node contains the key-value pair "word":True.
+class StreamChecker:
+    
+    def __init__(self, words: List[str]):
+        self.root = {'prefix': None, 'dict':None}
+        
+        #build Trie
+        for word in words:
+            node = self.root
+            for char in word:
+                if not char in node:
+                    node[char] = {}
+                node = node[char]
+            node['word'] = True
+                    
+        #set prefix and dictionary pointers by BFS
+        q = collections.deque([self.root])
+        while q:
+            node = q.popleft()
+            for char in node:
+                if len(char)==1:
+                    child = node[char]
+                    extendNode = node['prefix']
+                    while extendNode and not char in extendNode:
+                        extendNode = extendNode['prefix']
+                    if extendNode:
+                        child['prefix'] = extendNode[char]
+                    else:
+                        child['prefix'] = self.root
+                    if 'word' in child['prefix']:
+                        child['dict'] = child['prefix']
+                    else:
+                        child['dict'] = child['prefix']['dict']
+                    q.append(child)
+        
+        #self.cur will traverse the Trie
+        #while reading the stream
+        self.cur = self.root
+
+    def query(self, letter: str) -> bool:
+        extendNode = self.cur
+        while extendNode and not letter in extendNode:
+            extendNode = extendNode['prefix']
+        if extendNode:
+            self.cur = extendNode[letter]
+			#checks if current word is in words
+			#or if the dictionary pointer is non-null
+            if 'word' in self.cur or self.cur['dict']: 
+                return True
+            else:
+                return False
+        else:
+            self.cur = self.root
+            return False
+
 
 if __name__ == "__main__":
     words = ["cd","f","kl"]
