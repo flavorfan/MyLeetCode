@@ -24,13 +24,15 @@ class Solution:
             res=0
             for s in special:
                 tmp=[]
+                # try add cur special
                 for i in range(n):
                     if rest[i]<s[i]:
                         break
                     tmp.append(rest[i]-s[i])
                 else:
-                    cur=dfs(tuple(tmp))+s[-1]
-                    res=max(res,cur)
+                    # cur saved ++
+                    cur = dfs(tuple(tmp)) + s[-1]
+                    res = max(res,cur)
             return res
 
         saved   = dfs(tuple(needs))
