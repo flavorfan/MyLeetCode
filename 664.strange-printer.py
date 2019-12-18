@@ -9,10 +9,10 @@ import re
 import functools
 class Solution:
     def strangePrinter(self, s: str) -> int:
-        # Repeated element doesn't affect the final result. 
+        # mark-1 Repeated element doesn't affect the final result. 
         # We remove all repeated elements.
         s = re.sub(r'(.)\1*', r'\1', s)
-        @functools.lru_cache(None)
+        @functools.lru_cache(None)   # mark-2
         def dp(i,j):
             if i>j:
                 return 0
